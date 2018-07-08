@@ -1,0 +1,20 @@
+# Chicken & Code
+
+1. Orders
+2. Users
+3. Product
+4. Roles
+
+A. the admin registers a product
+    - id 
+    - name
+    - slug
+B. The admin generates a QR code for the product
+C. The user places an order. This will have: 
+    - email address
+    - ID 
+    - date 
+    - store 
+    - quantity 
+    - price 
+    - comments
