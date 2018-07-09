@@ -3,12 +3,9 @@
 namespace App;
 
 use DB; 
-use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-
-    protected $guarded = ['id']; 
 
     public static function persist()
     {
