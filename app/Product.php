@@ -25,7 +25,7 @@ class Product extends Model
             $instance = (new static)->fill([
                 'name' => request()->name, 
                 'description' => request()->description, 
-                'slug' => request()->slug,
+                // 'slug' => request()->slug,
             ]); 
 
             $instance->save(); 
@@ -36,9 +36,9 @@ class Product extends Model
 
 
 
-    public function generateUniqueCode()
+    protected function generateUniqueCode()
     {
-        $chars = str_random(3); 
+        $chars = strtoupper(str_random(3)); 
 
         $duplicateCount = DB::table('products')
         ->where('unq_code','like',"$chars%")
