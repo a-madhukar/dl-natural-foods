@@ -22,6 +22,16 @@ class ProductsController extends Controller
     }
 
 
+
+    public function show(Product $product)
+    {
+        return response()->json([
+            'data' => $product
+        ],200); 
+    }
+
+
+
     public function generateBarcode(Product $product)
     {
         $renderer = new ImageRenderer(

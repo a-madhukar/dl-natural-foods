@@ -63,6 +63,17 @@ class OrdersTest extends TestCase
     /**
      * @test
      */
+    public function every_order_belongs_to_a_product()
+    {
+        $order = factory(Order::class)->create();
+        
+        $this->assertTrue(!is_null($order->product)); 
+    }
+
+
+    /**
+     * @test
+     */
     public function a_user_can_see_past_orders_in_dashboard()
     {
         $order = factory(Order::class)->create(); 

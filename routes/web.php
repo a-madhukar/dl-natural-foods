@@ -28,5 +28,5 @@ Route::post('orders','OrdersController@store');
 
 //products
 Route::post('products','ProductsController@store'); 
-
+Route::get('products/{product}','ProductsController@show');
 Route::get('products/{product}/generate-barcode','ProductsController@generateBarcode');

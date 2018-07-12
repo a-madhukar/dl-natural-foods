@@ -46,4 +46,13 @@ class Product extends Model
 
         return $chars . $duplicateCount; 
     }
+
+
+
+    public function getRouteKeyName()
+    {
+        return 'unq_code';    
+    }
+
+    
 }

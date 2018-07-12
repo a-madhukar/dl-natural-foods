@@ -12,6 +12,7 @@ class Order extends Model
         return DB::transaction(function(){
             $instance = (new static)->fill([
                 'user_id' => auth()->user()->id, 
+                'product_id' => request()->product_id, 
                 'quantity' => request()->quantity, 
                 'price' => request()->price, 
                 'date' => request()->date, 
@@ -24,4 +25,12 @@ class Order extends Model
             return $instance; 
         }); 
     }
+
+
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id'); 
+    }
+
 }

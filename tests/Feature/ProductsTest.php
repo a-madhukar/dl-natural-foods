@@ -54,6 +54,23 @@ class ProductsTest extends TestCase
     }
 
 
+
+    /**
+     * @test
+     */
+    public function retrieve_the_product_by_the_unique_code()
+    {
+        $products = factory(Product::class, 10)->create();
+        
+        $response = $this->actingAs($this->user)
+        ->get('products/' . $products[0]->unq_code)
+        ->assertStatus(200)
+        ->getContent(); 
+
+        $this->assertEquals($products[0]->unq_code, json_decode($response)->data->unq_code); 
+    }
+
+
     protected function makeProduct()
     {
         return factory(Product::class)->make(); 
