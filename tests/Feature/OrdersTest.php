@@ -31,21 +31,6 @@ class OrdersTest extends TestCase
     }
 
 
-    /**
-     * @test
-     */
-    public function a_user_can_see_the_order_create_form()
-    {
-        $response = $this->actingAs($this->user)
-        ->get('/orders/create')
-        ->assertStatus(200)
-        ->assertSee('Store')
-        ->assertSee('Price')
-        ->assertSee('Date')
-        ->assertSee('Quantity')
-        ->assertSee('Comments'); 
-    }
-
     
     /**
      * @test
@@ -56,7 +41,10 @@ class OrdersTest extends TestCase
         
         $response = $this->actingAs($this->user)
         ->post('/orders',$order->toArray())
-        ->assertRedirect('home'); 
+        ->assertStatus(201)
+        ->getContent();
+
+        $this->assertEquals($order->price, json_decode($response)->data->price); 
     }
 
 

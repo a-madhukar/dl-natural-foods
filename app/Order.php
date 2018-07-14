@@ -27,10 +27,20 @@ class Order extends Model
     }
 
 
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = $value * 100; 
+    }
+
+
+    public function getPriceAttribute($value)
+    {
+        return $value/100; 
+    }
+
 
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id'); 
     }
-
 }

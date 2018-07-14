@@ -35,6 +35,12 @@ class Product extends Model
     }
 
 
+    public static function findByUnqCode($code)
+    {
+        return static::unqCode($code)->first(); 
+    }
+
+
 
     protected function generateUniqueCode()
     {
@@ -49,10 +55,17 @@ class Product extends Model
 
 
 
+    public function scopeUnqCode($query, $unqCode)
+    {
+        return $query->whereUnqCode($unqCode); 
+    }
+
+
+
     public function getRouteKeyName()
     {
         return 'unq_code';    
     }
 
-    
+
 }

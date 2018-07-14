@@ -26,7 +26,9 @@ class OrdersController extends Controller
     {
         $order = Order::persist(); 
 
-        return redirect()->home();
+        return response()->json([
+            'data' => $order
+        ], 201); 
     }
 
 }

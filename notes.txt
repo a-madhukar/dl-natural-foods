@@ -26,3 +26,11 @@ C. The user places an order. This will have:
 - create the product 
 - generate the unique code 
 - generate the QR code
+
+
+// sprint 2
+- turn the create form into vuejs 
+- enter the product id in the create form 
+- search that the product id is valid
+- save the form
+
