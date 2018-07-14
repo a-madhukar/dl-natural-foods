@@ -53,9 +53,17 @@ class OrdersTest extends TestCase
      */
     public function a_user_can_edit_an_order()
     {
+        // create the order
+        // submit new info 
+        // old order id == new order id 
+        // old name != new name
+
         $order = factory(Order::class)->create();
         
-        $newOrder = factory(Order::class)->make(); 
+        $newOrder = factory(Order::class)->make([
+            'store_name' => 'Updated Store Name', 
+            'price' => 45
+        ]); 
 
         $response = $this->actingAs($this->user)
         ->json('PUT','/orders/' . $order->id, $newOrder->toArray())
@@ -64,10 +72,8 @@ class OrdersTest extends TestCase
 
         $response = json_decode($response)->data; 
 
-        $order = Order::findOrFail($response->id); 
-
-        $this->assertNotNull($order); 
-        $this->assertEquals($newOrder->store_name, $order->store_name); 
+        $this->assertEquals($order->fresh()->id, $response->id); 
+        $this->assertEquals($order->fresh()->store_name, "Updated Store Name"); 
     }
 
 

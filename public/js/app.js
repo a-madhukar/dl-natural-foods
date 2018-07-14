@@ -47409,7 +47409,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         submitForm: function submitForm() {
             console.log("submitting the form.");
 
-            axios.post('/orders', this.buildPayload()).then(function (data) {
+            axios({
+                method: this.isEdit() ? 'put' : 'post',
+                url: this.isEdit() ? '/orders/' + this.order.id : '/orders',
+                data: this.payload()
+            }).then(function (data) {
                 return data.data.data;
             }).then(function (data) {
                 //redirect here. 
@@ -47417,7 +47421,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return console.log(error);
             });
         },
-        buildPayload: function buildPayload() {
+        payload: function payload() {
             return {
                 'product_id': this.product.id,
                 'quantity': this.order.quantity,

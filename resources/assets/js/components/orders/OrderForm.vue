@@ -104,7 +104,11 @@
             {
                 console.log("submitting the form."); 
 
-                axios.post('/orders', this.buildPayload())
+                axios({
+                    method: this.isEdit() ? 'put' : 'post', 
+                    url:this.isEdit() ? '/orders/' + this.order.id : '/orders', 
+                    data:this.payload()
+                })
                 .then(data => data.data.data)
                 .then(data => {
                     //redirect here. 
@@ -113,7 +117,7 @@
             }, 
 
 
-            buildPayload()
+            payload()
             {
                 return {
                     'product_id':this.product.id, 
