@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->string('store_name')->nullable();
             $table->longText('comments')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

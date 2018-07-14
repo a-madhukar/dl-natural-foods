@@ -50,4 +50,12 @@ class OrdersController extends Controller
             'data' => $order->updateInstance()
         ], 200); 
     }
+
+
+    public function destroy(Order $order)
+    {
+        $order->delete(); 
+        
+        return redirect()->home(); 
+    }
 }

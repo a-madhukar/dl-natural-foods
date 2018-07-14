@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('unq_code')->unique();
             $table->string('slug')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

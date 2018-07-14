@@ -21,15 +21,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 //orders
-Route::get('orders/create', 'OrdersController@create'); 
-Route::post('orders','OrdersController@store'); 
-Route::get('orders/{order}', 'OrdersController@show'); 
-Route::get('orders/{order}/edit','OrdersController@edit'); 
-Route::put('orders/{order}', 'OrdersController@update'); 
-
+Route::resource('orders','OrdersController'); 
 
 
 //products
 Route::post('products','ProductsController@store'); 
 Route::get('products/{product}','ProductsController@show');
+
+
 Route::get('products/{product}/generate-barcode','ProductsController@generateBarcode');

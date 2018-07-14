@@ -26,7 +26,8 @@ class OrdersTest extends TestCase
      */
     public function only_a_authenticated_user_can_see_order_create_form()
     {
-        $this->get('/orders/create')
+        $this->withExceptionHandling()
+        ->get('/orders/create')
         ->assertRedirect('/login'); 
     }
 
@@ -85,6 +86,20 @@ class OrdersTest extends TestCase
         ->assertSee($order->unq_code)
         ->assertSee($order->store_name)
         ->assertSee($order->price); 
+    }
+
+
+    /**
+     * @test
+     */
+    public function a_user_can_delete_an_order()
+    {
+        $order = factory(Order::class)->create();
+
+        $response = $this->actingAs($this->user)
+        ->json('DELETE','/orders/' . $order->id);
+        
+        $this->assertNotNull($order->fresh()->deleted_at); 
     }
 
 

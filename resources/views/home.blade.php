@@ -44,7 +44,7 @@
                                         Actions
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">View</a>
+                                        <a class="dropdown-item" href="/orders/{{ $order->id }}">View</a>
                                         <a class="dropdown-item" href="/orders/{{ $order->id }}/edit">Edit</a>
                                         <a class="dropdown-item" href="#">Delete</a>
                                     </div>
