@@ -53,11 +53,6 @@ class OrdersTest extends TestCase
      */
     public function a_user_can_edit_an_order()
     {
-        // create the order
-        // submit new info 
-        // old order id == new order id 
-        // old name != new name
-
         $order = factory(Order::class)->create();
         
         $newOrder = factory(Order::class)->make([
@@ -74,6 +69,22 @@ class OrdersTest extends TestCase
 
         $this->assertEquals($order->fresh()->id, $response->id); 
         $this->assertEquals($order->fresh()->store_name, "Updated Store Name"); 
+    }
+
+
+    /**
+     * @test
+     */
+    public function a_user_can_view_a_created_order()
+    {
+        $order = factory(Order::class)->create();
+
+        $response = $this->actingAs($this->user)
+        ->get('/orders/' . $order->id)
+        ->assertStatus(200)
+        ->assertSee($order->unq_code)
+        ->assertSee($order->store_name)
+        ->assertSee($order->price); 
     }
 
 

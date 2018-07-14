@@ -10,15 +10,20 @@ class OrdersController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->only([
-            'create'
-        ]); 
+        $this->middleware('auth'); 
     }
 
 
     public function create()
     {
         return view('orders.create'); 
+    }
+
+
+    public function show(Order $order)
+    {
+        $order->load('product'); 
+        return view('orders.show', compact('order')); 
     }
 
     
