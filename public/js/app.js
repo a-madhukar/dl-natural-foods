@@ -47361,6 +47361,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+
+    props: ['savedOrder', 'mode'],
+
     data: function data() {
         return {
 
@@ -47389,12 +47392,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         'order.unq_code': function orderUnq_code() {
             console.log("watching the unq_code");
 
+            if (this.isEdit()) return "";
+
             this.setProduct();
         }
     },
 
     methods: {
-        init: function init() {},
+        init: function init() {
+            if (this.isEdit()) {
+                this.order = this.savedOrder;
+                this.product = this.order.product;
+                this.order.unq_code = this.product.unq_code;
+            }
+        },
         submitForm: function submitForm() {
             console.log("submitting the form.");
 
@@ -47429,11 +47440,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         isValidProduct: function isValidProduct() {
             return Object.keys(this.product).length;
+        },
+        isEdit: function isEdit() {
+            return this.mode == "edit";
         }
     },
 
     mounted: function mounted() {
         console.log("order form is ready.");
+
+        this.init();
     }
 });
 
@@ -47471,7 +47487,12 @@ var render = function() {
               }
             ],
             staticClass: "form-control",
-            attrs: { type: "text", name: "date", required: "" },
+            attrs: {
+              type: "text",
+              name: "date",
+              required: "",
+              disabled: _vm.isEdit()
+            },
             domProps: { value: _vm.order.unq_code },
             on: {
               input: function($event) {

@@ -4,7 +4,7 @@
 
             <div class="form-group">
                 <label for="store">Unique Code</label>
-                <input type="text" class="form-control" name="date" v-model="order.unq_code" required>
+                <input type="text" class="form-control" name="date" v-model="order.unq_code" required :disabled="isEdit()">
                 <small v-if="!validUnqCode">Please enter a valid code.</small>
             </div>
 
@@ -47,6 +47,8 @@
 <script>
     export default {
 
+        props:['savedOrder', 'mode'], 
+
         data()
         {
             return {
@@ -79,6 +81,8 @@
             {
                 console.log("watching the unq_code"); 
 
+                if(this.isEdit()) return "";
+
                 this.setProduct(); 
             }, 
         }, 
@@ -87,7 +91,12 @@
         {
             init()
             {
-
+                if(this.isEdit())
+                {
+                    this.order = this.savedOrder; 
+                    this.product = this.order.product; 
+                    this.order.unq_code = this.product.unq_code; 
+                }
             }, 
 
 
@@ -131,11 +140,19 @@
                 return Object.keys(this.product).length; 
             }, 
 
+
+            isEdit()
+            {
+                return this.mode == "edit"; 
+            }, 
+
         }, 
 
         mounted()
         {
             console.log("order form is ready."); 
+
+            this.init(); 
         }, 
     }
 </script>

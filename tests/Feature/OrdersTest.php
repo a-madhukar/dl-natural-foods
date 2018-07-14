@@ -35,7 +35,7 @@ class OrdersTest extends TestCase
     /**
      * @test
      */
-    public function a_user_can_make_a_order()
+    public function a_user_can_make_an_order()
     {     
         $order = factory(Order::class)->make(); 
         
@@ -45,6 +45,29 @@ class OrdersTest extends TestCase
         ->getContent();
 
         $this->assertEquals($order->price, json_decode($response)->data->price); 
+    }
+
+
+    /**
+     * @test
+     */
+    public function a_user_can_edit_an_order()
+    {
+        $order = factory(Order::class)->create();
+        
+        $newOrder = factory(Order::class)->make(); 
+
+        $response = $this->actingAs($this->user)
+        ->json('PUT','/orders/' . $order->id, $newOrder->toArray())
+        ->assertStatus(200)
+        ->getContent(); 
+
+        $response = json_decode($response)->data; 
+
+        $order = Order::findOrFail($response->id); 
+
+        $this->assertNotNull($order); 
+        $this->assertEquals($newOrder->store_name, $order->store_name); 
     }
 
 

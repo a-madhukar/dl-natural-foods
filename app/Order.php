@@ -27,6 +27,24 @@ class Order extends Model
     }
 
 
+    public function updateInstance()
+    {
+        $this->fill([
+            // 'user_id' => auth()->user()->id, 
+            // 'product_id' => request()->product_id, 
+            'quantity' => request()->quantity, 
+            'price' => request()->price, 
+            'date' => request()->date, 
+            'store_name' => request()->store_name, 
+            'comments' => request()->comments, 
+        ]); 
+
+        $this->save(); 
+
+        return $this; 
+    }
+
+
     public function setPriceAttribute($value)
     {
         $this->attributes['price'] = $value * 100; 

@@ -31,4 +31,18 @@ class OrdersController extends Controller
         ], 201); 
     }
 
+
+    public function edit(Order $order)
+    {
+        $order->load('product'); 
+        return view('orders.edit', compact('order')); 
+    }
+
+
+    public function update(Order $order)
+    {
+        return response()->json([
+            'data' => $order->updateInstance()
+        ], 200); 
+    }
 }
