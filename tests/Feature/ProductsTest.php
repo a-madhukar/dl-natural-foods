@@ -32,25 +32,52 @@ class ProductsTest extends TestCase
         ->post('products', $product->toArray())
         ->getContent(); 
 
-        $this->assertEquals($product->name, json_decode($response)->data->name); 
+        $data = json_decode($response)->data; 
+
+        $this->assertEquals($product->name, $data->name); 
+        $this->assertCount(6, str_split($data->unq_code)); 
+        $this->assertFileExists($data->qr_code_path); 
     }
 
 
-
     /**
-     * 
+     * @test
      */
-    public function a_product_will_have_a_unique_code_once_it_is_created()
+    public function a_user_can_view_a_created_product()
     {
-        $product = $this->makeProduct(); 
+        $product = factory(Product::class)->create();
 
         $response = $this->actingAs($this->user)
-        ->post('products', $product->toArray())
+        ->get('/products/' . $product->unq_code)
+        ->assertStatus(200)
+        ->assertSee($product->name)
+        ->assertSee($product->description)
+        ->assertSee($product->unq_code); 
+    }
+
+
+    /**
+     * @test
+     */
+    public function a_user_can_update_a_product()
+    {
+        $product = factory(Product::class)->create();
+        
+        $newOrder = factory(Product::class)->make([
+            'name' => 'Updated Name', 
+            'description' => 'Updated desc'
+        ]); 
+
+        $response = $this->actingAs($this->user)
+        ->json('PUT','/products/' . $product->unq_code, $newOrder->toArray())
+        ->assertStatus(200)
         ->getContent(); 
-        // dd(json_decode($response->getContent())); 
 
-        $this->assertCount(6, str_split(json_decode($response)->data->unq_code)); 
+        $response = json_decode($response)->data; 
 
+        $this->assertEquals($product->fresh()->id, $response->id); 
+        $this->assertEquals($product->fresh()->name, "Updated Name"); 
+        $this->assertEquals($product->fresh()->description, "Updated desc"); 
     }
 
 
@@ -58,16 +85,14 @@ class ProductsTest extends TestCase
     /**
      * @test
      */
-    public function retrieve_the_product_by_the_unique_code()
+    public function a_user_can_delete_a_product()
     {
-        $products = factory(Product::class, 10)->create();
-        
-        $response = $this->actingAs($this->user)
-        ->get('products/' . $products[0]->unq_code)
-        ->assertStatus(200)
-        ->getContent(); 
+        $product = factory(Product::class)->create();
 
-        $this->assertEquals($products[0]->unq_code, json_decode($response)->data->unq_code); 
+        $response = $this->actingAs($this->user)
+        ->json('DELETE','/products/' . $product->unq_code);
+        
+        $this->assertNotNull($product->fresh()->deleted_at); 
     }
 
 

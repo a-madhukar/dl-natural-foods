@@ -14,6 +14,22 @@ class ProductsController extends Controller
     //
 
 
+    public function create()
+    {
+        return view('products.create'); 
+    }
+
+
+    public function show(Product $product)
+    {
+        // return response()->json([
+        //     'data' => $product
+        // ],200); 
+
+        return view('products.show', compact('product')); 
+    }
+
+
     public function store()
     {
         return response()->json([
@@ -22,31 +38,31 @@ class ProductsController extends Controller
     }
 
 
-
-    public function show(Product $product)
+    public function edit(Product $product)
     {
-        return response()->json([
-            'data' => $product
-        ],200); 
+        return view('products.edit', compact('product')); 
     }
 
 
-
-    public function generateBarcode(Product $product)
+    public function update(Product $product)
     {
-        $renderer = new ImageRenderer(
-            new RendererStyle(400),
-            new ImagickImageBackEnd()
-        );
-        $writer = new Writer($renderer);
+        return response()->json([
+            'data' => $product->updateInstance()
+        ], 200); 
+    }
 
-        $writer->writeFile(
-            'https://9eb837a4.ngrok.io/orders/create?default=' . $product->unq_code, 
-            'qrcode.png'
-        );
 
-        return response()->download("qrcode.png", sprintf("%s_code.png", $product->unq_code))
-        ->deleteFileAfterSend(true);
+    public function downloadBarcode(Product $product)
+    {
+        return response()->download($product->qr_code_path);
+    }
+
+
+    public function destroy(Product $product)
+    {
+        $product->delete(); 
+        
+        return redirect()->home(); 
     }
 
 }

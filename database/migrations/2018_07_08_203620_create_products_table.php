@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->longText('description')->nullable();
             $table->string('unq_code')->unique();
-            $table->string('slug')->nullable();
+            $table->string('qr_code_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

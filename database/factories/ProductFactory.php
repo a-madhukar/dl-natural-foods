@@ -8,6 +8,5 @@ $factory->define(Product::class, function (Faker $faker) {
         'name' => $faker->word, 
         'description' => $faker->sentence, 
         'unq_code' => str_random(10), 
-        'slug' => str_slug($faker->words(3, true)),
     ];
 });

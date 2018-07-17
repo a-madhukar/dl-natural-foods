@@ -5,6 +5,12 @@
 3. Product
 4. Roles
 
+CRUD Orders
+CRUD Product
+Generate Bar Code
+View Past Orders
+Social Auth
+
 A. the admin registers a product
     - id 
     - name
@@ -21,16 +27,27 @@ C. The user places an order. This will have:
 
 
 
-// sprint 1
+// sprint 1 [done]
 
 - create the product 
 - generate the unique code 
 - generate the QR code
 
 
-// sprint 2
+// sprint 2 [done]
 - turn the create form into vuejs 
 - enter the product id in the create form 
 - search that the product id is valid
 - save the form
+
+// sprint 3 
+- display the order
+- edit the order 
+- delete the order 
+
+
+// sprint 4
+- update the product
+- delete the product
+- show the product
 

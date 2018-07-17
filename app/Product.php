@@ -3,6 +3,10 @@
 namespace App;
 
 use DB;
+use BaconQrCode\Writer;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 
 class Product extends Model
 {
@@ -15,6 +19,8 @@ class Product extends Model
 
         static::creating(function($product){
             $product->unq_code = $product->generateUniqueCode(); 
+
+            $product->qr_code_path = $product->generateQRCode(); 
         }); 
     }
 
@@ -25,13 +31,25 @@ class Product extends Model
             $instance = (new static)->fill([
                 'name' => request()->name, 
                 'description' => request()->description, 
-                // 'slug' => request()->slug,
             ]); 
 
             $instance->save(); 
 
             return $instance; 
         }); 
+    }
+
+
+    public function updateInstance()
+    {
+        $this->fill([
+            'name' => request()->name, 
+            'description' => request()->description, 
+        ]); 
+
+        $this->save(); 
+
+        return $this; 
     }
 
 
@@ -51,6 +69,25 @@ class Product extends Model
         ->count() + 100; 
 
         return $chars . $duplicateCount; 
+    }
+
+
+    protected function generateQRCode()
+    {
+        $renderer = new ImageRenderer(
+            new RendererStyle(400),
+            new ImagickImageBackEnd()
+        );
+        $writer = new Writer($renderer);
+
+        $filePath = sprintf("%s/QR_%s.png", storage_path('app/public'), $this->unq_code); 
+
+        $writer->writeFile(
+            sprintf("%s/orders/create?default=%s", env('APP_URL'), $this->unq_code), 
+            $filePath
+        );
+
+        return sprintf("storage/QR_%s.png", $this->unq_code); 
     }
 
 

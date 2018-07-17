@@ -13894,6 +13894,7 @@ window.Vue = __webpack_require__(36);
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
 Vue.component('order-form', __webpack_require__(39));
+Vue.component('product-form', __webpack_require__(48));
 
 var app = new Vue({
   el: '#app'
@@ -47679,6 +47680,252 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(40)
+/* script */
+var __vue_script__ = __webpack_require__(49)
+/* template */
+var __vue_template__ = __webpack_require__(50)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/products/ProductForm.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-828d8ec2", Component.options)
+  } else {
+    hotAPI.reload("data-v-828d8ec2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    props: ['savedProduct', 'mode'],
+
+    data: function data() {
+        return {
+
+            product: {
+                name: '',
+                description: '',
+                unq_code: ''
+            }
+
+        };
+    },
+
+
+    methods: {
+        init: function init() {
+            if (this.isEdit()) {
+                this.product = this.savedProduct;
+            }
+        },
+        submitForm: function submitForm() {
+            console.log("submitting the form.");
+
+            axios({
+                method: this.isEdit() ? 'put' : 'post',
+                url: this.isEdit() ? '/products/' + this.product.unq_code : '/products',
+                data: this.payload()
+            }).then(function (data) {
+                return data.data.data;
+            }).then(function (data) {
+                //redirect here. 
+                location.href = "/products/" + data.unq_code;
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
+        payload: function payload() {
+            return {
+                'name': this.product.name,
+                'description': this.product.description
+            };
+        },
+        isEdit: function isEdit() {
+            return this.mode == "edit";
+        }
+    },
+
+    mounted: function mounted() {
+        console.log("product form is ready.");
+
+        this.init();
+    }
+});
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "form",
+      {
+        attrs: { method: "POST", validate: "" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.submitForm($event)
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.product.name,
+                expression: "product.name"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", name: "name", required: "" },
+            domProps: { value: _vm.product.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.product, "name", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "description" } }, [
+            _vm._v("Description")
+          ]),
+          _vm._v(" "),
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.product.description,
+                expression: "product.description"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { name: "description", id: "", cols: "30", rows: "10" },
+            domProps: { value: _vm.product.description },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.product, "description", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary form-control",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("\n                Submit\n            ")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-828d8ec2", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
