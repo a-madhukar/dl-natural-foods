@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->home();
 });
 
 Auth::routes();
@@ -21,16 +21,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 //orders
-Route::resource('orders','OrdersController'); 
+Route::resource('orders','OrdersController')->middleware('auth'); 
 
 
 //products
-Route::get('products/create','ProductsController@create'); 
-Route::post('products','ProductsController@store'); 
-Route::get('products/{product}/edit','ProductsController@edit');
-Route::put('products/{product}','ProductsController@update');
-Route::delete('products/{product}', 'ProductsController@destroy'); 
-Route::get('/products/{product}','ProductsController@show');
+Route::resource('products','ProductsController')->middleware('auth'); 
 
 
 Route::get('products/{product}/download-barcode','ProductsController@downloadBarcode');

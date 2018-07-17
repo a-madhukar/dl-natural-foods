@@ -13,6 +13,18 @@ class ProductsController extends Controller
 {
     //
 
+    public function index()
+    {
+        $products = Product::when(request()->unq_code, function($query){
+            $query->whereUnqCode(request()->unq_code); 
+        })
+        ->paginate(30);
+
+        $codes = Product::pluck('unq_code')->unique();
+
+        return view('products.index', compact('products', 'codes')); 
+    }
+
 
     public function create()
     {

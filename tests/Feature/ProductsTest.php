@@ -60,6 +60,23 @@ class ProductsTest extends TestCase
     /**
      * @test
      */
+    public function a_user_can_view_a_list_of_products()
+    {
+        $products = factory(Product::class, 10)->create();
+
+        $response = $this->actingAs($this->user)
+        ->get('/products')
+        ->assertStatus(200); 
+
+        $products->each(function($product) use ($response){
+            $response->assertSee($product->unq_code); 
+        }); 
+    }
+
+
+    /**
+     * @test
+     */
     public function a_user_can_update_a_product()
     {
         $product = factory(Product::class)->create();
