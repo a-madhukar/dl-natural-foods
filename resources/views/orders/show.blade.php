@@ -19,6 +19,19 @@
                             <p>{{ $order->date }}</p>
                         </div>
 
+                        @if(auth()->user()->isAdmin())
+                        <div class="form-group">
+                            <label for="store">User</label>
+                            <p>{{ $order->user->name }}</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="store">Email</label>
+                            <p>{{ $order->user->email }}</p>
+                        </div>
+                        @endif
+
+
                         <div class="form-group">
                             <label for="store">Store</label>
                             <p>{{ $order->store_name }}</p>

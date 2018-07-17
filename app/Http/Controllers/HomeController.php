@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Order;
+use App\Product;
 
 class HomeController extends Controller
 {
@@ -24,8 +25,21 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $orders = Order::orderBy('date','desc')->get(); 
+        $orders = Order::orderBy('date','desc')
+        ->with('product', 'user')
+        ->when(!auth()->user()->isAdmin(), function($query){
+            $query->whereUserId(auth()->user()->id); 
+        })
+        ->when(request()->unq_code, function($query){
+            $query->whereHas('product', function($query){
+                $query->whereUnqCode(request()->unq_code); 
+            }); 
+        })->paginate(30); 
 
-        return view('home', compact('orders'));
+        $codes = Product::pluck('unq_code')->unique();
+        
+        // dd($products); 
+
+        return view('home', compact('orders','codes'));
     }
 }

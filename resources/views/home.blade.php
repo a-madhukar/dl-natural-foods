@@ -13,12 +13,40 @@
             <hr>
 
             <div class="card">
-                <div class="card-header">Past Orders</div>
+                <div class="card-header">Orders</div>
+
+                @if(isset($codes) && count($codes))
+                <div>
+                    <form class="row" method="GET" action="/home">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="">Filter By Code:</label>
+                                <select name="unq_code" id="" class="form-control">
+                                    <option value="">All</option>
+                                    @foreach($codes as $code)
+                                        <option value="{{ $code }}" {{ $code == request()->unq_code ? 'selected' : '' }}>{{ $code }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4" style="display:flex; align-items:center;">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                @endif
 
                 <table class="table">
                     <thead>
                         <tr>
                         <th scope="col">Date</th>
+                        <th scope="col">Code</th>
+
+                        @if(auth()->user()->isAdmin())
+                            <th scope="col">User</th>
+                        @endif
+
                         <th scope="col">Store</th>
                         <th scope="col">Price</th>
                         <th scope="col"></th>
@@ -31,11 +59,25 @@
                             <td>
                                 {{ $order->date }}
                             </td>
+
+                            <td>
+                                <a href="/home?{{ implode('&' ,request()->all()) . 'unq_code=' . $order->product->unq_code ?? '' }}">
+                                    {{ $order->product->unq_code ?? '' }}
+                                </a>
+                            </td>
+
+                            @if(auth()->user()->isAdmin())
+                                <td>
+                                    {{ $order->user->name }}
+                                </td>
+                            @endif
+
                             <td>
                                 {{ $order->store_name }}
                             </td>
+
                             <td>
-                                {{ $order->price }}
+                                {{ money_format('RM %i',$order->price) }}
                             </td>
 
                             <td>
@@ -52,10 +94,18 @@
                             </td>
                         </tr>
                         @endforeach
+
+                        
                         @endif
                     </tbody>
                 </table>
 
+                
+
+            </div>
+
+            <div class="text-" style="margin-top:10px; display:flex; justify-content:center;">
+                {{ $orders->links() }}
             </div>
         </div>
     </div>

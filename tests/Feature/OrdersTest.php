@@ -117,6 +117,17 @@ class OrdersTest extends TestCase
     /**
      * @test
      */
+    public function every_order_is_made_by_a_user()
+    {
+        $order = factory(Order::class)->create();
+
+        $this->assertNotNull($order->user); 
+    }
+
+
+    /**
+     * @test
+     */
     public function a_user_can_see_past_orders_in_dashboard()
     {
         $order = factory(Order::class)->create(); 

@@ -14,14 +14,16 @@ class UsersTableSeeder extends Seeder
     {
         //
 
-        if(env('APP_ENV') == "local")
-        {
-            factory(User::class)->create([
-                'name' => "Ajay", 
-                'email' => "a.madhukar@yahoo.com", 
-                'password' => bcrypt('123456')
-            ]); 
-        }
+        // if(env('APP_ENV') == "local")
+        // {
+        //     factory(User::class)->create([
+        //         'name' => "Ajay", 
+        //         'email' => "a.madhukar@yahoo.com", 
+        //         'password' => bcrypt('123456')
+        //     ]); 
+        // }
+
+        factory(User::class, 10)->create(); 
 
     }
 }
