@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Order;
+use App\Product;
 
 class OrdersController extends Controller
 {
@@ -16,7 +17,15 @@ class OrdersController extends Controller
 
     public function create()
     {
-        return view('orders.create'); 
+        $defaultCode = request()->default ?: ''; 
+
+        if(isset($defaultCode))
+        {
+            $product = Product::findByUnqCode($defaultCode); 
+
+            if(is_null($product)) $defaultCode = ""; 
+        }
+        return view('orders.create', compact('defaultCode')); 
     }
 
 

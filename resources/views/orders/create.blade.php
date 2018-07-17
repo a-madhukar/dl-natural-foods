@@ -8,7 +8,7 @@
                 <div class="card-header">New Order</div>
 
                 <div class="card-body">
-                    <order-form></order-form>
+                    <order-form default-code="{{ $defaultCode }}"></order-form>
                 </div>
             </div>
         </div>

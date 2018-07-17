@@ -47363,7 +47363,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: ['savedOrder', 'mode'],
+    props: ['savedOrder', 'mode', 'defaultCode'],
 
     data: function data() {
         return {
@@ -47401,6 +47401,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         init: function init() {
+            if (!!this.defaultCode) this.order.unq_code = this.defaultCode;
+
             if (this.isEdit()) {
                 this.order = this.savedOrder;
                 this.product = this.order.product;
@@ -47418,6 +47420,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return data.data.data;
             }).then(function (data) {
                 //redirect here. 
+                location.href = "/home";
             }).catch(function (error) {
                 return console.log(error);
             });
@@ -47435,7 +47438,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         setProduct: function setProduct() {
             var _this = this;
 
-            return axios.get('/products/' + this.order.unq_code).then(function (data) {
+            return axios.get('/products/' + this.order.unq_code + '?type=json').then(function (data) {
                 return data.data.data;
             }).then(function (data) {
                 return _this.product = data;
@@ -47470,7 +47473,7 @@ var render = function() {
     _c(
       "form",
       {
-        attrs: { action: "/orders", method: "POST", validate: "" },
+        attrs: { method: "POST", validate: "" },
         on: {
           submit: function($event) {
             $event.preventDefault()

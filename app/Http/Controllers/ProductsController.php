@@ -22,9 +22,12 @@ class ProductsController extends Controller
 
     public function show(Product $product)
     {
-        // return response()->json([
-        //     'data' => $product
-        // ],200); 
+        if(request()->type == "json") 
+        {
+            return response()->json([
+                'data' => $product
+            ],200); 
+        }
 
         return view('products.show', compact('product')); 
     }

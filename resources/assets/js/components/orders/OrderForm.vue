@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form action="/orders" method="POST" validate @submit.prevent="submitForm">
+        <form method="POST" validate @submit.prevent="submitForm">
 
             <div class="form-group">
                 <label for="store">Unique Code</label>
@@ -47,7 +47,7 @@
 <script>
     export default {
 
-        props:['savedOrder', 'mode'], 
+        props:['savedOrder', 'mode', 'defaultCode'], 
 
         data()
         {
@@ -91,6 +91,9 @@
         {
             init()
             {
+                if(!!this.defaultCode)
+                    this.order.unq_code = this.defaultCode; 
+
                 if(this.isEdit())
                 {
                     this.order = this.savedOrder; 
@@ -112,6 +115,7 @@
                 .then(data => data.data.data)
                 .then(data => {
                     //redirect here. 
+                    location.href="/home"; 
                 })
                 .catch(error => console.log(error)); 
             }, 
@@ -132,7 +136,7 @@
 
             setProduct()
             {
-                return axios.get('/products/' + this.order.unq_code)
+                return axios.get('/products/' + this.order.unq_code + '?type=json')
                 .then(data => data.data.data)
                 .then(data => this.product = data)
                 .catch(error => this.product = {}); 
