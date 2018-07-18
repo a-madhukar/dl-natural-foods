@@ -1,5 +1,5 @@
 <template>
-    <div class="dropdown-item" @click="deleteItem">
+    <div class="dropdown-item" @click="deleteItem" style="cursor:pointer;">
         Delete
     </div>
 </template>

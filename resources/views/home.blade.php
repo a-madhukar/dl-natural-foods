@@ -89,7 +89,8 @@
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item" href="/orders/{{ $order->id }}">View</a>
                                             <a class="dropdown-item" href="/orders/{{ $order->id }}/edit">Edit</a>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            <delete-button href="{{ '/orders/' . $order->id }}" 
+                                        text="{{ 'Delete Order' }}"></delete-button>
                                         </div>
                                     </div>
                                 </td>

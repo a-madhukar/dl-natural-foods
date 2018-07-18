@@ -48024,7 +48024,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "dropdown-item", on: { click: _vm.deleteItem } },
+    {
+      staticClass: "dropdown-item",
+      staticStyle: { cursor: "pointer" },
+      on: { click: _vm.deleteItem }
+    },
     [_vm._v("\n    Delete\n")]
   )
 }

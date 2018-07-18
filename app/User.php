@@ -36,6 +36,7 @@ class User extends Authenticatable
         ])->fill([
             'name' => $socialiteUser->name,
             'fb_access_token' => $socialiteUser->token, 
+            'active' => 1, 
         ]); 
 
         $instance->save(); 
@@ -43,6 +44,20 @@ class User extends Authenticatable
         auth()->login($instance, true); 
 
         return $instance; 
+    }
+
+
+    public function activate()
+    {
+        $this->active = 1; 
+        $this->save(); 
+        return $this; 
+    }
+
+
+    public function isActive()
+    {
+        return $this->active == 1; 
     }
 
 

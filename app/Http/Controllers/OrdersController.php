@@ -65,9 +65,9 @@ class OrdersController extends Controller
     public function destroy(Order $order)
     {
         $this->authorize('update', $order);
-
-        $order->delete(); 
         
-        return redirect()->home(); 
+        return response()->json([
+            'data' => $order->delete()
+        ],200);
     }
 }

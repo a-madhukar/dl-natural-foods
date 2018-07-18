@@ -64,10 +64,26 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
+                                    {{ __('Sign Up') }}
                                 </button>
+
+                                
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <hr>
+                                        <a class="btn btn-primary form-control" href="/login/facebook">
+                                            <i class="fab fa-facebook-f" style="margin-right:0.5rem;"></i>
+                                            Sign Up with Facebook
+                                        </a>
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
+
+                        
                     </form>
                 </div>
             </div>

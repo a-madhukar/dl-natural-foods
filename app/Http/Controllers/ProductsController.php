@@ -89,6 +89,8 @@ class ProductsController extends Controller
     {
         $this->authorizeUser(); 
 
+        $product->orders()->delete(); 
+
         $product->delete(); 
         
         return response()->json([

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
+use App\Order; 
 use App\Product;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -116,6 +117,25 @@ class ProductsTest extends TestCase
         $this->assertSoftDeleted('products', [
             'unq_code' => $product->unq_code
         ]); 
+    }
+
+
+
+    /**
+     * @test
+     */
+    public function a_product_has_many_orders()
+    {
+        $product = factory(Product::class)->create();
+
+        $normalOders = factory(Order::class,10)->create(); 
+
+        $productOrders = factory(Order::class, 5)->create([
+            'product_id' => $product->id, 
+        ]); 
+
+        $this->assertNotNull($product->orders); 
+        $this->assertCount(5, $product->orders); 
     }
 
 

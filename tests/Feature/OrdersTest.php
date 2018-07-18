@@ -17,7 +17,9 @@ class OrdersTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create(); 
+        $this->user = factory(User::class)->create([
+            'active' => 1
+        ]); 
     }
 
 
@@ -98,7 +100,9 @@ class OrdersTest extends TestCase
      */
     public function a_user_can_delete_an_order()
     {
-        $order = factory(Order::class)->create();
+        $order = factory(Order::class)->create([
+            'user_id' => $this->user->id
+        ]);
 
         $response = $this->actingAs($this->user)
         ->json('DELETE','/orders/' . $order->id);

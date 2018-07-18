@@ -1,16 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', function () {
     return redirect('home');
 });
@@ -19,16 +8,22 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('login/facebook', 'Auth\LoginController@redirectToProvider');
 Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallback');
+Route::get('account/activate','AccountController@activateUserAccount'); 
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => 'auth'], function(){
 
+    Route::get('account/send-activation-email', 'AccountController@show'); 
+    Route::post('account/send-activation-email', 'AccountController@sendActivationEmail'); 
+    
+    Route::get('/home', 'HomeController@index')->name('home')->middleware('activeUser');
+    
+    //orders
+    Route::resource('orders','OrdersController')->middleware('activeUser'); 
 
-//orders
-Route::resource('orders','OrdersController')->middleware('auth'); 
+    //products
+    Route::resource('products','ProductsController'); 
+    
 
+    Route::get('products/{product}/download-barcode','ProductsController@downloadBarcode');
+}); 
 
-//products
-Route::resource('products','ProductsController')->middleware('auth'); 
-
-
-Route::get('products/{product}/download-barcode','ProductsController@downloadBarcode');
