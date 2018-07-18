@@ -28,6 +28,24 @@ class User extends Authenticatable
     ];
 
 
+
+    public static function loginWithFacebook($socialiteUser)
+    {
+        $instance = (new static)->firstOrNew([
+            'email' => $socialiteUser->email, 
+        ])->fill([
+            'name' => $socialiteUser->name,
+            'fb_access_token' => $socialiteUser->token, 
+        ]); 
+
+        $instance->save(); 
+
+        auth()->login($instance, true); 
+
+        return $instance; 
+    }
+
+
     public function isAdmin()
     {
         return $this->is_admin == 1;         

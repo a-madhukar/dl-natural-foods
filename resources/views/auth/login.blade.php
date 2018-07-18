@@ -58,10 +58,26 @@
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <a class="btn btn-primary form-control" href="/login/facebook">
+                                            <i class="fab fa-facebook-f" style="margin-right:0.5rem;"></i>
+                                            Login with Facebook
+                                        </a>
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </form>
                 </div>
+
+                
+
             </div>
         </div>
     </div>

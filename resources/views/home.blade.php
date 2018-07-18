@@ -37,68 +37,72 @@
                 </div>
                 @endif
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Code</th>
-
-                        @if(auth()->user()->isAdmin())
-                            <th scope="col">User</th>
-                        @endif
-
-                        <th scope="col">Store</th>
-                        <th scope="col">Price</th>
-                        <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if(isset($orders) && count($orders))
-                        @foreach($orders as $order)
-                        <tr>
-                            <td>
-                                {{ $order->date }}
-                            </td>
-
-                            <td>
-                                <a href="/home?{{ implode('&' ,request()->all()) . 'unq_code=' . $order->product->unq_code ?? '' }}">
-                                    {{ $order->product->unq_code ?? '' }}
-                                </a>
-                            </td>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Code</th>
 
                             @if(auth()->user()->isAdmin())
-                                <td>
-                                    {{ $order->user->name }}
-                                </td>
+                                <th scope="col">User</th>
                             @endif
 
-                            <td>
-                                {{ $order->store_name }}
-                            </td>
+                            <th scope="col">Store</th>
+                            <th scope="col">Price</th>
+                            <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(isset($orders) && count($orders))
+                            @foreach($orders as $order)
+                            <tr>
+                                <td>
+                                    {{ $order->date }}
+                                </td>
 
-                            <td>
-                                {{ money_format('RM %i',$order->price) }}
-                            </td>
+                                <td>
+                                    <a href="/home?{{ implode('&' ,request()->all()) . 'unq_code=' . $order->product->unq_code ?? '' }}">
+                                        {{ $order->product->unq_code ?? '' }}
+                                    </a>
+                                </td>
 
-                            <td>
-                                <div class="dropdown text-center">
-                                    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Actions
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="/orders/{{ $order->id }}">View</a>
-                                        <a class="dropdown-item" href="/orders/{{ $order->id }}/edit">Edit</a>
-                                        <a class="dropdown-item" href="#">Delete</a>
+                                @if(auth()->user()->isAdmin())
+                                    <td>
+                                        {{ $order->user->name }}
+                                    </td>
+                                @endif
+
+                                <td>
+                                    {{ $order->store_name }}
+                                </td>
+
+                                <td>
+                                    {{ money_format('RM %i',$order->price) }}
+                                </td>
+
+                                <td>
+                                    <div class="dropdown text-center">
+                                        <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Actions
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="/orders/{{ $order->id }}">View</a>
+                                            <a class="dropdown-item" href="/orders/{{ $order->id }}/edit">Edit</a>
+                                            <a class="dropdown-item" href="#">Delete</a>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-
-                        
-                        @endif
-                    </tbody>
-                </table>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <tr>
+                                <td class="text-center" colspan="{{ auth()->user()->isAdmin() ? 6 : 5 }}">No orders yet.</td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
 
                 
 
