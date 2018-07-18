@@ -137,7 +137,26 @@ class OrdersTest extends TestCase
         ->assertStatus(200); 
 
         $response->assertSeeText($order->store_name); 
+    }
 
+
+    /**
+     * @test
+     */
+    public function a_user_can_only_see_their_own_order_and_no_one_elses()
+    {
+        $order = factory(Order::class)->create([
+            'user_id' => $this->user->id, 
+        ]); 
+
+        $user = factory(User::class)->create([
+            'is_admin' => 0, 
+        ]); 
+
+        $response = $this->withExceptionHandling()
+        ->actingAs($user)
+        ->get('/orders/' . $order->id)
+        ->assertStatus(403);
     }
 
 }

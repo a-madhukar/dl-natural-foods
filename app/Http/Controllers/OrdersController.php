@@ -25,6 +25,8 @@ class OrdersController extends Controller
 
     public function show(Order $order)
     {
+        $this->authorize('update', $order);
+
         $order->load('product'); 
         return view('orders.show', compact('order')); 
     }
@@ -42,13 +44,18 @@ class OrdersController extends Controller
 
     public function edit(Order $order)
     {
+        $this->authorize('update', $order);
+
         $order->load('product'); 
+
         return view('orders.edit', compact('order')); 
     }
 
 
     public function update(Order $order)
     {
+        $this->authorize('update', $order);
+
         return response()->json([
             'data' => $order->updateInstance()
         ], 200); 
@@ -57,6 +64,8 @@ class OrdersController extends Controller
 
     public function destroy(Order $order)
     {
+        $this->authorize('update', $order);
+
         $order->delete(); 
         
         return redirect()->home(); 
