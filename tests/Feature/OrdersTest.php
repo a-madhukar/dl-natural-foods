@@ -54,7 +54,9 @@ class OrdersTest extends TestCase
      */
     public function a_user_can_edit_an_order()
     {
-        $order = factory(Order::class)->create();
+        $order = factory(Order::class)->create([
+            'user_id' => $this->user->id, 
+        ]);
         
         $newOrder = factory(Order::class)->make([
             'store_name' => 'Updated Store Name', 
@@ -78,7 +80,9 @@ class OrdersTest extends TestCase
      */
     public function a_user_can_view_a_created_order()
     {
-        $order = factory(Order::class)->create();
+        $order = factory(Order::class)->create([
+            'user_id' => $this->user->id, 
+        ]);
 
         $response = $this->actingAs($this->user)
         ->get('/orders/' . $order->id)
@@ -130,7 +134,9 @@ class OrdersTest extends TestCase
      */
     public function a_user_can_see_past_orders_in_dashboard()
     {
-        $order = factory(Order::class)->create(); 
+        $order = factory(Order::class)->create([
+            'user_id' => $this->user->id, 
+        ]); 
 
         $response = $this->actingAs($this->user)
         ->get('home')

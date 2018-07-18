@@ -18,7 +18,9 @@ class ProductsTest extends TestCase
     {
         parent::setUp(); 
 
-        $this->user = factory(User::class)->create();  
+        $this->user = factory(User::class)->create([
+            'is_admin' => 1
+        ]);  
     }
 
     
@@ -110,7 +112,10 @@ class ProductsTest extends TestCase
         $response = $this->actingAs($this->user)
         ->json('DELETE','/products/' . $product->unq_code);
         
-        $this->assertNotNull($product->fresh()->deleted_at); 
+        $this->assertNotNull($product->fresh()->deleted_at);
+        $this->assertSoftDeleted('products', [
+            'unq_code' => $product->unq_code
+        ]); 
     }
 
 

@@ -65,14 +65,17 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="/products/{{ $product->unq_code }}">View</a>
                                         <a class="dropdown-item" href="/products/{{ $product->unq_code }}/edit">Edit</a>
-                                        <a class="dropdown-item" href="#">Delete</a>
+                                        <delete-button href="{{ '/products/' . $product->unq_code }}" 
+                                        text="{{ 'Delete Product with code: ' . $product->unq_code }}"></delete-button> 
                                     </div>
                                 </div>
                             </td>
                         </tr>
                         @endforeach
-
-                        
+                        @else
+                            <tr>
+                                <td class="text-center" colspan="3">No products yet.</td>
+                            </tr>
                         @endif
                     </tbody>
                 </table>

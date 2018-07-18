@@ -19,6 +19,7 @@ window.Vue = require('vue');
 
 Vue.component('order-form', require('./components/orders/OrderForm.vue'));
 Vue.component('product-form', require('./components/products/ProductForm.vue'));
+Vue.component('delete-button', require('./components/DeleteButton.vue'));
 
 const app = new Vue({
     el: '#app'

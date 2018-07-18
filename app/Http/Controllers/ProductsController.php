@@ -91,7 +91,9 @@ class ProductsController extends Controller
 
         $product->delete(); 
         
-        return redirect()->home(); 
+        return response()->json([
+            'data' => true
+        ],200); 
     }
 
 
