@@ -15,6 +15,8 @@ class ProductsController extends Controller
 
     public function index()
     {
+        $this->authorizeUser(); 
+
         $products = Product::when(request()->unq_code, function($query){
             $query->whereUnqCode(request()->unq_code); 
         })
@@ -28,6 +30,8 @@ class ProductsController extends Controller
 
     public function create()
     {
+        $this->authorizeUser(); 
+
         return view('products.create'); 
     }
 
@@ -41,12 +45,16 @@ class ProductsController extends Controller
             ],200); 
         }
 
+        $this->authorizeUser(); 
+
         return view('products.show', compact('product')); 
     }
 
 
     public function store()
     {
+        $this->authorizeUser(); 
+
         return response()->json([
             "data" => Product::persist()
         ], 201); 
@@ -55,12 +63,16 @@ class ProductsController extends Controller
 
     public function edit(Product $product)
     {
+        $this->authorizeUser(); 
+
         return view('products.edit', compact('product')); 
     }
 
 
     public function update(Product $product)
     {
+        $this->authorizeUser(); 
+
         return response()->json([
             'data' => $product->updateInstance()
         ], 200); 
@@ -75,9 +87,18 @@ class ProductsController extends Controller
 
     public function destroy(Product $product)
     {
+        $this->authorizeUser(); 
+
         $product->delete(); 
         
         return redirect()->home(); 
+    }
+
+
+
+    public function authorizeUser()
+    {
+        $this->authorize('update', Product::class); 
     }
 
 }
